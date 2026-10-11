@@ -1,0 +1,836 @@
+{
+  "id": "rust",
+  "name": "Rust",
+  "version": "0.6.1",
+  "protocol": 7,
+  "contributions": "plugin.toml",
+  "permissions": [
+    "workspace.read",
+    "process.exec",
+    "ui.panels",
+    "process.service.analysis",
+    "process.service.adapter",
+    "dependencies.prepare"
+  ],
+  "storage_limit": 1024,
+  "api": {
+    "base": "^1",
+    "required": {
+      "language.lsp": ">=1.1,<2",
+      "workspace.files": ">=1.1,<2",
+      "host.sdk": "^1",
+      "configuration": "^1",
+      "process": ">=1.7,<2",
+      "plugin.services": ">=1.1,<2",
+      "ui.panels": "^1",
+      "ui.native": ">=1.1,<2",
+      "dependencies": ">=1.2,<2"
+    }
+  },
+  "component": "rust.wasm",
+  "plugin_services": {
+    "provides": {
+      "run.targets": {
+        "version": "1.0.0",
+        "methods": {
+          "discover": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "workspace": {
+                  "type": "string",
+                  "max_bytes": 4096
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "targets": {
+                  "type": "array",
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "identity": {
+                        "type": "string",
+                        "max_bytes": 256
+                      },
+                      "label": {
+                        "type": "string",
+                        "max_bytes": 256
+                      },
+                      "source": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      },
+                      "target_type": {
+                        "type": "string",
+                        "max_bytes": 128
+                      },
+                      "type_version": {
+                        "type": "integer",
+                        "min": 1,
+                        "max": 2147483647
+                      },
+                      "binding": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      }
+                    }
+                  },
+                  "max_items": 128
+                }
+              }
+            },
+            "permissions": [
+              "workspace.read",
+              "process.exec"
+            ]
+          },
+          "prepare": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "workspace": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "binding": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "env": {
+                  "type": "array",
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "name": {
+                        "type": "string",
+                        "max_bytes": 128
+                      },
+                      "value": {
+                        "type": "string",
+                        "max_bytes": 32768
+                      }
+                    }
+                  },
+                  "max_items": 64
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "program": {
+                  "type": "string",
+                  "max_bytes": 4096
+                }
+              }
+            },
+            "permissions": [
+              "workspace.read",
+              "process.exec",
+              "ui.panels"
+            ]
+          }
+        }
+      },
+      "run.configurations": {
+        "version": "1.0.0",
+        "methods": {
+          "catalog": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "workspace": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "locale": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "os": {
+                  "type": "string",
+                  "max_bytes": 64
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "payload": {
+                  "type": "string",
+                  "max_bytes": 65536
+                }
+              }
+            },
+            "permissions": [
+              "workspace.read",
+              "process.exec"
+            ]
+          },
+          "form": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "workspace": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "locale": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "os": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "template": {
+                  "type": "string",
+                  "max_bytes": 256
+                },
+                "values": {
+                  "type": "string",
+                  "max_bytes": 16384
+                },
+                "event": {
+                  "type": "string",
+                  "max_bytes": 65536
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "payload": {
+                  "type": "string",
+                  "max_bytes": 65536
+                }
+              }
+            },
+            "permissions": [
+              "workspace.read",
+              "ui.panels"
+            ]
+          },
+          "validate": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "workspace": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "locale": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "os": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "template": {
+                  "type": "string",
+                  "max_bytes": 256
+                },
+                "values": {
+                  "type": "string",
+                  "max_bytes": 16384
+                },
+                "intent": {
+                  "type": "string",
+                  "max_bytes": 64
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "payload": {
+                  "type": "string",
+                  "max_bytes": 65536
+                }
+              }
+            },
+            "permissions": [
+              "workspace.read",
+              "process.exec"
+            ]
+          }
+        }
+      },
+      "debug.session": {
+        "version": "1.1.0",
+        "methods": {
+          "start": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "program": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "args": {
+                  "type": "array",
+                  "max_items": 128,
+                  "items": {
+                    "type": "string",
+                    "max_bytes": 4096
+                  }
+                },
+                "cwd": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "name": {
+                  "type": "string",
+                  "max_bytes": 256
+                },
+                "env": {
+                  "type": "array",
+                  "max_items": 64,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "name": {
+                        "type": "string",
+                        "max_bytes": 128
+                      },
+                      "value": {
+                        "type": "string",
+                        "max_bytes": 32768
+                      }
+                    }
+                  }
+                },
+                "breakpoints": {
+                  "type": "array",
+                  "max_items": 512,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "source": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      },
+                      "line": {
+                        "type": "integer",
+                        "min": 1,
+                        "max": 2147483647
+                      }
+                    }
+                  }
+                },
+                "stop_on_entry": {
+                  "type": "boolean"
+                }
+              },
+              "optional": [
+                "cwd",
+                "name",
+                "env",
+                "breakpoints",
+                "stop_on_entry"
+              ]
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "permissions": [
+              "process.exec",
+              "ui.panels"
+            ]
+          },
+          "set_breakpoints": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "breakpoints": {
+                  "type": "array",
+                  "max_items": 512,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "source": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      },
+                      "line": {
+                        "type": "integer",
+                        "min": 1,
+                        "max": 2147483647
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "breakpoints": {
+                  "type": "array",
+                  "max_items": 512,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "source": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      },
+                      "line": {
+                        "type": "integer",
+                        "min": 1,
+                        "max": 2147483647
+                      },
+                      "verified": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "resume": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "pause": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "step": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                },
+                "kind": {
+                  "type": "string",
+                  "max_bytes": 32
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "frames": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "frames": {
+                  "type": "array",
+                  "max_items": 256,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "id": {
+                        "type": "integer",
+                        "min": 0,
+                        "max": 2147483647
+                      },
+                      "name": {
+                        "type": "string",
+                        "max_bytes": 512
+                      },
+                      "source": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      },
+                      "line": {
+                        "type": "integer",
+                        "min": 1,
+                        "max": 2147483647
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "variables": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                },
+                "frame": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 2147483647
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "variables": {
+                  "type": "array",
+                  "max_items": 512,
+                  "items": {
+                    "type": "record",
+                    "fields": {
+                      "name": {
+                        "type": "string",
+                        "max_bytes": 512
+                      },
+                      "value": {
+                        "type": "string",
+                        "max_bytes": 4096
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "status": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "reason": {
+                  "type": "string",
+                  "max_bytes": 64
+                },
+                "source": {
+                  "type": "string",
+                  "max_bytes": 4096
+                },
+                "line": {
+                  "type": "integer",
+                  "min": 1,
+                  "max": 2147483647
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              },
+              "optional": [
+                "reason",
+                "source",
+                "line"
+              ]
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          },
+          "stop": {
+            "parameters": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                }
+              }
+            },
+            "result": {
+              "type": "record",
+              "fields": {
+                "session": {
+                  "type": "string",
+                  "max_bytes": 128
+                },
+                "state": {
+                  "type": "string",
+                  "max_bytes": 32
+                },
+                "pause": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 9223372036854775807
+                }
+              }
+            },
+            "permissions": [
+              "process.exec"
+            ]
+          }
+        },
+        "preparation": {
+          "start": [
+            "adapter"
+          ]
+        },
+        "enabled_setting": "debugger.enabled",
+        "platforms": [
+          "windows-x86_64"
+        ]
+      }
+    }
+  },
+  "settings": {
+    "executable": {
+      "title": "Rust Analyzer 可执行文件（留空默认值时自动查找）",
+      "value_type": {
+        "kind": "string",
+        "max_length": 4096
+      },
+      "default": "",
+      "scope": "project"
+    },
+    "debugger.enabled": {
+      "title": "启用调试器 / Enable debugger",
+      "value_type": {
+        "kind": "boolean"
+      },
+      "default": true,
+      "scope": "project"
+    }
+  },
+  "services": {
+    "analysis": {
+      "program": "rust-analyzer",
+      "args": [],
+      "search_paths": [
+        "${HOME}/scoop/persist/vscode/data/extensions/rust-lang.rust-analyzer-*/server/rust-analyzer.exe",
+        "${HOME}/.vscode/extensions/rust-lang.rust-analyzer-*/server/rust-analyzer.exe",
+        "${HOME}/.vscode-insiders/extensions/rust-lang.rust-analyzer-*/server/rust-analyzer.exe"
+      ],
+      "check_args": [
+        "--version"
+      ]
+    },
+    "adapter": {
+      "program": "me-debug-bridge",
+      "args": [
+        "${dependency:adapter}/extension/adapter/codelldb.exe",
+        "${dependency:adapter}/extension/lldb/bin/liblldb.dll"
+      ],
+      "installation": {
+        "artifacts": [
+          {
+            "id": "adapter",
+            "version": "1.12.3",
+            "platform": "windows-x86_64",
+            "sha256": "a916e509308dac817732f63ca604a8b93ed29cd16f38a2fa9f0b64ed58e8f51a",
+            "source": {
+              "kind": "url",
+              "url": "https://github.com/vadimcn/codelldb/releases/download/v1.12.3/codelldb-win32-x64.vsix"
+            },
+            "format": {
+              "kind": "zip"
+            }
+          },
+          {
+            "id": "bridge",
+            "version": "0.1.0",
+            "platform": "windows-x86_64",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "source": {
+              "kind": "package",
+              "path": "native/me-debug-bridge.exe"
+            },
+            "format": {
+              "kind": "file",
+              "path": "me-debug-bridge.exe"
+            },
+            "requires": [
+              "adapter"
+            ]
+          }
+        ],
+        "executable": "bridge/me-debug-bridge.exe"
+      },
+      "on_demand": true,
+      "platforms": [
+        "windows-x86_64"
+      ]
+    }
+  },
+  "language_servers": [
+    {
+      "id": "analysis",
+      "language": "rust",
+      "service": "analysis",
+      "hook": true,
+      "executable_setting": "executable",
+      "initialization_options": {},
+      "client_experimental": {
+        "serverStatusNotification": true
+      },
+      "readiness": {
+        "notification": "experimental/serverStatus",
+        "pointer": "/quiescent",
+        "expected": true,
+        "timeout_ms": 120000
+      },
+      "completion_triggers": [
+        ".",
+        ":"
+      ],
+      "completion_after_whitespace": [
+        ":",
+        "->"
+      ]
+    }
+  ],
+  "replaces": [
+    {
+      "id": "rust-debugger",
+      "versions": ">=0.1,<0.3",
+      "contracts": [
+        "debug.session"
+      ],
+      "enabled_setting": "debugger.enabled"
+    }
+  ]
+}

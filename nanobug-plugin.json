@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "manifest": "manifest.json",
+  "output": ".",
+  "wasm": {
+    "manifest": "Cargo.toml"
+  },
+  "assets": [
+    {
+      "source": "README.md",
+      "destination": "README.md"
+    },
+    {
+      "source": "plugin.toml",
+      "destination": "plugin.toml"
+    },
+    {
+      "source": "icons.json",
+      "destination": "icons.json"
+    },
+    {
+      "source": "grammar",
+      "destination": "grammar"
+    },
+    {
+      "source": "queries",
+      "destination": "queries"
+    },
+    {
+      "source": "icons",
+      "destination": "icons"
+    },
+    {
+      "source": "{build}/me-debug-bridge.exe",
+      "destination": "native/me-debug-bridge.exe",
+      "platform": "windows-x86_64"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "LICENSE"
+    }
+  ],
+  "native": [
+    {
+      "program": "rustc",
+      "platform": "windows-x86_64",
+      "args": [
+        "--edition",
+        "2024",
+        "-O",
+        "native/bridge.rs",
+        "-o",
+        "{build}/me-debug-bridge.exe"
+      ],
+      "optional_platform": true
+    }
+  ]
+}
