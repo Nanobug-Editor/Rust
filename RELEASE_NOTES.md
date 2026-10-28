@@ -1,5 +1,5 @@
-# Rust 0.6.1
+# Rust 0.6.2
 
-- Publish the existing plugin from its independent official repository using the pinned public Nanobug SDK.
-- Preserve installation ID `rust`, settings and private data; include standalone build instructions and the original license notices.
-- This release changes distribution metadata and packaged documentation. It does not redesign plugin business behavior.
+- Select the Cargo project belonging to the requested document instead of loading every independent plugin under a workspace at startup.
+- Keep excluded nested plugin sources in their own language context with the public host SDK available; preserve the 120-second readiness deadline.
+- Require `language.lsp >=1.5,<2` for document-scoped discovery. Installation ID, settings and permissions remain unchanged.

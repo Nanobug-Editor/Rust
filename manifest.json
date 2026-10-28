@@ -1,7 +1,7 @@
 {
   "id": "rust",
   "name": "Rust",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "protocol": 7,
   "contributions": "plugin.toml",
   "permissions": [
@@ -16,7 +16,7 @@
   "api": {
     "base": "^1",
     "required": {
-      "language.lsp": ">=1.1,<2",
+      "language.lsp": ">=1.5,<2",
       "workspace.files": ">=1.1,<2",
       "host.sdk": "^1",
       "configuration": "^1",
