@@ -4,7 +4,9 @@
 
 Rust recognition and language services, Cargo configurations and the merged debugger. The stable installation ID is `rust`; the first independent release is `0.6.1`.
 
-The current source version is **0.6.2**. Language startup selects the workspace Cargo root or the closest independent plugin project containing the requested document. Unopened independent projects stay outside that server's analysis; opening one creates its own project context with the host SDK available for completion. The readiness deadline remains 120 seconds.
+The current source version is **0.6.3**. Documentation comment markers retain the comment color, including the third slash in `///` and the bang in `//!`. Highlight queries also cover qualified and generic calls, macro definitions, lifetimes, declared constants, path keywords and compound operators. Verification is recorded in [the highlighting checks](docs/verification/highlighting-2026-10-30.md).
+
+Language startup selects the workspace Cargo root or the closest independent plugin project containing the requested document. Unopened independent projects stay outside that server's analysis; opening one creates its own project context with the host SDK available for completion. The readiness deadline remains 120 seconds.
 
 This repository is the authoritative plugin source. The [marketplace registry](https://github.com/Nanobug-Editor/Plugin-Marketplace) reviews submissions; fixed ZIP packages live in this repository's Releases. Publishing a Release does not list it automatically. Every initial submission and version requires a registry PR and human review.
 
