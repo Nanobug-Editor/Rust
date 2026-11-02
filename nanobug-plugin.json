@@ -48,6 +48,8 @@
         "--edition",
         "2024",
         "-O",
+        "-C",
+        "target-feature=+crt-static",
         "native/bridge.rs",
         "-o",
         "{build}/me-debug-bridge.exe"

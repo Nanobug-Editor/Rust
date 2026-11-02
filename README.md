@@ -1,10 +1,12 @@
 # Rust
 
+Version **0.6.4** targets the Nanobug internal-test build of 2026-11-02 through the public host SDK. Installation IDs and permissions are preserved. Windows native helpers included in this package use a statically linked runtime.
+
 **English** · [简体中文](https://github.com/Nanobug-Editor/Rust/blob/main/README.zh-CN.md)
 
 Rust recognition and language services, Cargo configurations and the merged debugger. The stable installation ID is `rust`; the first independent release is `0.6.1`.
 
-The current source version is **0.6.3**. Documentation comment markers retain the comment color, including the third slash in `///` and the bang in `//!`. Highlight queries also cover qualified and generic calls, macro definitions, lifetimes, declared constants, path keywords and compound operators. Verification is recorded in [the highlighting checks](docs/verification/highlighting-2026-10-30.md).
+The current source version is **0.6.4**. Documentation comment markers retain the comment color, including the third slash in `///` and the bang in `//!`. Highlight queries also cover qualified and generic calls, macro definitions, lifetimes, declared constants, path keywords and compound operators. Verification is recorded in [the highlighting checks](docs/verification/highlighting-2026-10-30.md).
 
 Language startup selects the workspace Cargo root or the closest independent plugin project containing the requested document. Unopened independent projects stay outside that server's analysis; opening one creates its own project context with the host SDK available for completion. The readiness deadline remains 120 seconds.
 

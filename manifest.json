@@ -1,7 +1,7 @@
 {
   "id": "rust",
   "name": "Rust",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "protocol": 7,
   "contributions": "plugin.toml",
   "permissions": [
